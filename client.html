@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      var socket = new WebSocket("ws://localhost:8000");
+      socket.onmessage = function(e) {
+        console.log(e.data);
+        $('#console').append("<br>" + e.data + "</br>");
+      };
+      socket.onerror = function(err) {
+        console.log("Error: " + err);
+      };
+      function sendCmd(value) {
+        socket.send(value);
+      };
+      function sendFormCmd() {
+        var field = $('#command');
+        sendCmd(field.val());
+        field.val('');
+      }
+    </script>
+  </head>
+  <body>
+    <div id="console"></div>
+    <br>
+    <form onsubmit="sendFormCmd(); return false">
+      Blargh: <input id="command" type="text">
+      <input type="submit">
+    </form>
+  </body>
+</html>
